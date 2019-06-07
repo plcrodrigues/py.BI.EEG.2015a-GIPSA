@@ -61,5 +61,8 @@ for subject in dataset.subject_list:
 filename = './classification_scores.pkl'
 joblib.dump(scr, filename)
 
-
+with open('classification_scores.txt', 'w') as the_file:
+	for subject in scores.keys():
+		for session_number in [1, 2, 3]:
+			the_file.write('subject ' + str(subject).zfill(2) + ', session ' + str(session_number) + ' :' + ' {:.2f}'.format(scores[subject]['session_' + str(session_number)]) + '\n')
 
