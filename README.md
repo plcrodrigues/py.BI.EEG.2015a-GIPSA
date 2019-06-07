@@ -1,2 +1,1 @@
-# py.BI.EEG.2014a-GIPSA
 # py.BI.EEG.2015a-GIPSA
