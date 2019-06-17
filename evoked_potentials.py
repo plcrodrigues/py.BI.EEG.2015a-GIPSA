@@ -17,7 +17,7 @@ scores = joblib.load(filename)
 dataset = BrainInvaders2015a()
 
 # loop on list of subjects
-for subject in dataset.subject_list:
+for subject in dataset.subject_list[31:]:
 
 	print('treating subject', str(subject).zfill(2))
 
@@ -47,8 +47,11 @@ for subject in dataset.subject_list:
 		t = np.arange(len(evkTarget)) / epochs.info['sfreq']
 		ax.plot(t, evkTarget, c='#2166ac', lw=3.0, label='Target')
 		ax.plot(t, evkNonTarget, c='#b2182b', lw=3.0, label='NonTarget')
+		ax.plot([0, 0.8], [0, 0], c='#CDCDCD', lw=2.0, ls='--')	
 		ax.set_xlim(0, 0.8)
-		ax.set_title('Average evoked potentials at electrode Cz for subject ' + str(subject) + session + ' (AUC : ' + '{:.2f}'.format(scores[subject][session]) + ')')
+		ax.set_title('Average evoked potentials at electrode Cz for subject ' + str(subject) + ' on ' + session.replace('_', ' ') + ' (AUC : ' + '{:.2f}'.format(scores[subject][session]) + ')', fontsize=14)
+		ax.set_ylabel(r'amplitude ($\mu$V)', fontsize=12)
+		ax.set_xlabel('time after stimulus (s)', fontsize=12)		
 		ax.legend()
 
 		filename = './evoked_potentials/evoked_potentials_subject_' + str(subject).zfill(2) + '_' + session + '.pdf'

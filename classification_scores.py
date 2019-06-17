@@ -1,6 +1,6 @@
 
 from pyriemann.classification import MDM
-from pyriemann.estimation import XdawnCovariances, ERPCovariances
+from pyriemann.estimation import ERPCovariances
 from tqdm import tqdm
 
 import sys
@@ -24,7 +24,7 @@ dataset = BrainInvaders2015a()
 # to avoid this problem I dropped the epochs having this condition
 
 #load data
-for subject in dataset.subject_list:
+for subject in dataset.subject_list[:31]:
 
 	sessions = dataset._get_single_subject_data(subject)
 	scr[subject] = {}
@@ -47,22 +47,22 @@ for subject in dataset.subject_list:
 		# get trials and labels
 		X = epochs.get_data()
 		y = epochs.events[:,-1]
-		y = LabelEncoder().fit_transform(y)
+		y = y - 1
 
 		# cross validation
 		skf = StratifiedKFold(n_splits=5)
-		clf = make_pipeline(XdawnCovariances(estimator='lwf', classes=[1], xdawn_estimator='lwf'), MDM())
+		clf = make_pipeline(ERPCovariances(estimator='lwf', classes=[1]), MDM())
 		scr[subject][session] = cross_val_score(clf, X, y, cv=skf, scoring = 'roc_auc').mean()
 
 		# print results of classification
 		print('subject', subject)
 		print('mean AUC :', scr[subject])
 
-filename = './classification_scores.pkl'
+filename = './classification_scores_part1.pkl'
 joblib.dump(scr, filename)
 
-with open('classification_scores.txt', 'w') as the_file:
-	for subject in scores.keys():
+with open('classification_scores_part1.txt', 'w') as the_file:
+	for subject in scr.keys():
 		for session_number in [1, 2, 3]:
-			the_file.write('subject ' + str(subject).zfill(2) + ', session ' + str(session_number) + ' :' + ' {:.2f}'.format(scores[subject]['session_' + str(session_number)]) + '\n')
+			the_file.write('subject ' + str(subject).zfill(2) + ', session ' + str(session_number) + ' :' + ' {:.2f}'.format(scr[subject]['session_' + str(session_number)]) + '\n')
 
