@@ -24,7 +24,7 @@ dataset = BrainInvaders2015a()
 # to avoid this problem I dropped the epochs having this condition
 
 #load data
-for subject in dataset.subject_list[:31]:
+for subject in dataset.subject_list:
 
 	sessions = dataset._get_single_subject_data(subject)
 	scr[subject] = {}

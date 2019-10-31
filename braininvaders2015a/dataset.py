@@ -11,7 +11,7 @@ from scipy.io import loadmat
 from distutils.dir_util import copy_tree
 import shutil
 
-BI2015a_URL = 'https://zenodo.org/record/3236168/files/'
+BI2015a_URL = 'https://zenodo.org/record/3266930/files/'
 
 class BrainInvaders2015a():
     '''
