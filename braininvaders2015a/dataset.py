@@ -15,7 +15,17 @@ BI2015a_URL = 'https://zenodo.org/record/3266930/files/'
 
 class BrainInvaders2015a():
     '''
-
+    This dataset contains electroencephalographic (EEG) recordings 
+    of 50 subjects playing to a visual P300 Brain-Computer Interface (BCI) 
+    videogame named Brain Invaders. The interface uses the oddball paradigm 
+    on a grid of 36 symbols (1 Target, 35 Non-Target) that are flashed 
+    pseudo-randomly to elicit the P300 response. EEG data were recorded using 
+    32 active wet electrodes with three conditions: flash duration 50ms, 80ms 
+    or 110ms. The experiment took place at GIPSA-lab, Grenoble, France, in 2015. 
+    A full description of the experiment is available at 
+    https://hal.archives-ouvertes.fr/hal-02172347. Python code for manipulating 
+    the data is available at https://github.com/plcrodrigues/py.BI.EEG.2015a-GIPSA. 
+    The ID of this dataset is bi2015a.
     '''
 
     def __init__(self):
