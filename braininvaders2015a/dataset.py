@@ -13,6 +13,7 @@ import shutil
 
 BI2015a_URL = 'https://zenodo.org/record/3266930/files/'
 
+
 class BrainInvaders2015a():
     '''
     This dataset contains electroencephalographic (EEG) recordings 
@@ -30,7 +31,7 @@ class BrainInvaders2015a():
 
     def __init__(self):
 
-        self.subject_list = list(range(1, 44 + 1))
+        self.subject_list = list(range(1, 44))
 
     def _get_single_subject_data(self, subject):
         """return data for a single subject"""
@@ -45,45 +46,45 @@ class BrainInvaders2015a():
             run_name = 'run_1'
 
             chnames = ['Fp1',
-                        'Fp2',
-                        'AFz',
-                        'F7',
-                        'F3',
-                        'F4',
-                        'F8',
-                        'FC5',
-                        'FC1',
-                        'FC2',
-                        'FC6',
-                        'T7',
-                        'C3',
-                        'Cz',
-                        'C4',
-                        'T8',
-                        'CP5',
-                        'CP1',
-                        'CP2',
-                        'CP6',
-                        'P7',
-                        'P3',
-                        'Pz',
-                        'P4',
-                        'P8',
-                        'PO7',
-                        'O1',
-                        'Oz',
-                        'O2',
-                        'PO8',
-                        'PO9',
-                        'PO10',
-                        'STI 014']
+                       'Fp2',
+                       'AFz',
+                       'F7',
+                       'F3',
+                       'F4',
+                       'F8',
+                       'FC5',
+                       'FC1',
+                       'FC2',
+                       'FC6',
+                       'T7',
+                       'C3',
+                       'Cz',
+                       'C4',
+                       'T8',
+                       'CP5',
+                       'CP1',
+                       'CP2',
+                       'CP6',
+                       'P7',
+                       'P3',
+                       'Pz',
+                       'P4',
+                       'P8',
+                       'PO7',
+                       'O1',
+                       'Oz',
+                       'O2',
+                       'PO8',
+                       'PO9',
+                       'PO10',
+                       'STI 014']
 
-            chtypes = ['eeg'] * 32 + ['stim']               
+            chtypes = ['eeg'] * 32 + ['stim']
 
             D = loadmat(file_path)['DATA'].T
-            S = D[1:33,:]
-            stim = D[-2,:] + D[-1,:]
-            X = np.concatenate([S, stim[None,:]])
+            S = D[1:33, :]
+            stim = D[-2, :] + D[-1, :]
+            X = np.concatenate([S, stim[None, :]])
 
             info = mne.create_info(ch_names=chnames, sfreq=512,
                                    ch_types=chtypes, montage='standard_1020',
@@ -103,10 +104,12 @@ class BrainInvaders2015a():
         # check if has the .zip
         url = BI2015a_URL + 'subject_' + str(subject).zfill(2) + '_mat.zip'
         path_zip = dl.data_path(url, 'BRAININVADERS2015A')
-        path_folder = path_zip.strip('subject_' + str(subject).zfill(2) + '.zip')
+        path_folder = path_zip.strip(
+            'subject_' + str(subject).zfill(2) + '.zip')
 
         # check if has to unzip
-        path_folder_subject = path_folder + 'subject_' + str(subject).zfill(2) + os.sep
+        path_folder_subject = path_folder + \
+            'subject_' + str(subject).zfill(2) + os.sep
         if not(os.path.isdir(path_folder_subject)):
             os.mkdir(path_folder_subject)
             print('unzip', path_zip)
@@ -114,8 +117,9 @@ class BrainInvaders2015a():
             zip_ref.extractall(path_folder_subject)
 
         # filter the data regarding the experimental conditions
-        subject_paths = []        
+        subject_paths = []
         for session in [1, 2, 3]:
-            subject_paths.append(path_folder_subject + 'subject_' + str(subject).zfill(2) + '_session_' + str(session).zfill(2) + '.mat')
+            subject_paths.append(path_folder_subject + 'subject_' + str(
+                subject).zfill(2) + '_session_' + str(session).zfill(2) + '.mat')
 
         return subject_paths
