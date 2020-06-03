@@ -2,7 +2,7 @@
 
 import mne
 import numpy as np
-from braininvaders2015a import download as dl
+from . import download as dl
 import os
 import glob
 import zipfile
